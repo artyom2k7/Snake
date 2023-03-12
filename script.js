@@ -2,6 +2,16 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 canvas.width = 500;
 canvas.height = 500;
+function generate(){
+    let e_x = Math.floor(Math.random() * canvas.width);
+    let e_y = Math.floor(Math.random() * canvas.height);
+    ctx.beginPath();
+    ctx.arc(e_x, e_y, 5, 0, Math.PI * 2, true);
+    ctx.fillStyle = '#f00';
+    ctx.fill();
+    return [e_x, e_y];
+}
+generate();
 class Point{
     constructor(x, y){
         this.x = x;
@@ -13,6 +23,7 @@ class Point{
         }
         ctx.beginPath();
         ctx.arc(this.x + dx, this.y + dy, 10, 0, Math.PI * 2);
+        ctx.fillStyle = '#000';
         ctx.fill();
         this.x = this.x + dx;
         this.y = this.y + dy;
@@ -22,10 +33,21 @@ let obj = new Point(250, 250);
 obj.draw(0, 0);
 let k1 = 0;
 let k2 = -1;
+let eaten = false;
+let [e_x, e_y] = generate();
 let timer1 = setInterval(()=>{
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if(eaten == true){
+        [e_x, e_y] = generate();
+    }
+    else{
+        ctx.beginPath();
+        ctx.arc(e_x, e_y, 0, Math.PI * 2, true);
+        ctx.fillStyle = '#f00';
+        ctx.fill();
+        console.log(e_x, e_y);
+    }
     document.addEventListener('keydown', (event)=>{
-        console.log(event.keyCode);
         if(event.keyCode == 38){
             k1 = 0;
             k2 = -1;
